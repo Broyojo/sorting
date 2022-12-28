@@ -1,9 +1,6 @@
 package sort
 
-var (
-	comparisons = 0
-	accesses    = 0
-)
+var comparisons, accesses int
 
 // Bubble Sort Algorithm
 func Bubble(arr []int, i int) ([]int, int, int) {
@@ -17,24 +14,45 @@ func Bubble(arr []int, i int) ([]int, int, int) {
 	return arr, comparisons, accesses
 }
 
-/*
 // Selection Sort Algorithm
-func Selection(arr []int) int {
-	return 0
-}
-
-// Merge Sort Algorithm
-func Merge(arr []int) []int {
-	if len(arr) > 1 {
-		middle := int(math.Floor(float64(len(arr) / 2)))
-		left := arr[:middle]
-		right := arr[middle:]
-
-		merge
-
+func Selection(arr []int, i int) ([]int, int, int) {
+	if i != len(arr)-1 {
+		minIndex := i
+		for j := i + 1; j < len(arr); j++ {
+			comparisons++
+			if arr[j] < arr[minIndex] {
+				minIndex = j
+			}
+		}
+		if minIndex != i {
+			arr = Swap(arr, i, minIndex)
+		}
 	}
+	return arr, comparisons, accesses
 }
-*/
+
+func Merge(arr []int, mid int) ([]int, int, int) {
+	left := arr[:mid]
+	right := arr[mid:]
+	result := make([]int, 0, len(left)+len(right))
+	var i, j int
+	for i < len(left) && j < len(right) {
+		if left[i] < right[j] {
+			accesses++
+			result = append(result, left[i])
+			i++
+		} else {
+			accesses++
+			result = append(result, right[j])
+			j++
+		}
+		comparisons++
+	}
+	result = append(result, left[i:]...)
+	result = append(result, right[j:]...)
+	accesses += len(left) + len(right)
+	return result, comparisons, accesses
+}
 
 func CheckSorted(arr []int) bool {
 	for i := 0; i < len(arr)-1; i++ {

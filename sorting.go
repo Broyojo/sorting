@@ -17,15 +17,11 @@ const (
 	height    = 720
 )
 
-var (
-	comparisons = 0
-	accesses    = 0
-	iterations  = 0
-)
+var comparisons, accesses, iterations int
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	arr := []int{}
+	var arr []int
 	for i := 0; i < arraySize; i++ {
 		arr = append(arr, rand.Intn(max-min+1)+min)
 	}
